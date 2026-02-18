@@ -9,25 +9,25 @@ const InstitutionCard = () => {
         </div>
         <div className="flex-1">
           <h1 className="mb-6 text-2xl font-extrabold text-foreground">
-            Дошкільний навчальний заклад "Сонечко"
+            Дар'ївський заклад дошкільної освіти Дар'ївської сільської ради Херсонського району Херсонської області
           </h1>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <InfoItem
               icon={<Building2 className="h-5 w-5 text-primary" />}
               label="ЄДРПОУ"
-              value="12345678"
+              value="24754240"
               bgClass="bg-accent"
             />
             <InfoItem
               icon={<MapPin className="h-5 w-5 text-secondary-foreground" />}
               label="Юридична адреса"
-              value="вул. Шкільна, 15, м. Київ, 01001"
+              value="75032 Херсонська обл., Херсонський р-н, с. Дар'ївка, вул. Травнева (Першотравнева), 72"
               bgClass="bg-secondary"
             />
             <InfoItem
               icon={<Mail className="h-5 w-5 text-accent-foreground" />}
               label="E-mail"
-              value="sonechko@example.com"
+              value="dariivkasadok@ukr.net"
               bgClass="bg-accent"
             />
             <InfoItem
