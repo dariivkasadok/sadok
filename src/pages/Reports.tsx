@@ -20,6 +20,26 @@ import type { DbChildWithGroup } from "@/types/database";
 import ReportSettingsModal, { availableColumns, type ReportSettings } from "@/components/reports/ReportSettingsModal";
 import ExportReportModal from "@/components/reports/ExportReportModal";
 
+const DateFilterField = ({ label, value, setter }: { label: string; value: string; setter: (v: string) => void }) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="space-y-1.5">
+      <Label>{label}</Label>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !value && "text-muted-foreground")}>
+            <CalendarIcon className="mr-2 h-4 w-4" />
+            {value ? format(new Date(value), "dd.MM.yyyy") : "Оберіть дату"}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar mode="single" selected={value ? new Date(value) : undefined} onSelect={(d) => { setter(d ? format(d, "yyyy-MM-dd") : ""); setOpen(false); }} initialFocus locale={uk} />
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+};
+
 const socialStatuses = [
   { key: "orphan", label: "Сирота" },
   { key: "inclusion", label: "Інклюзія" },
@@ -267,20 +287,7 @@ const Reports = () => {
                 { label: "Дата навчання з", value: enrollmentDateFrom, setter: setEnrollmentDateFrom },
                 { label: "Дата навчання по", value: enrollmentDateTo, setter: setEnrollmentDateTo },
               ].map(({ label, value, setter }) => (
-                <div key={label} className="space-y-1.5">
-                  <Label>{label}</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !value && "text-muted-foreground")}>
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {value ? format(new Date(value), "dd.MM.yyyy") : "Оберіть дату"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={value ? new Date(value) : undefined} onSelect={(d) => setter(d ? format(d, "yyyy-MM-dd") : "")} initialFocus className="pointer-events-auto p-3" locale={uk} />
-                    </PopoverContent>
-                  </Popover>
-                </div>
+                <DateFilterField key={label} label={label} value={value} setter={setter} />
               ))}
             </div>
 
