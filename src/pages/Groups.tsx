@@ -67,6 +67,8 @@ const Groups = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingGroup, setEditingGroup] = useState<DbGroup | null>(null);
   const [formData, setFormData] = useState<GroupFormData>({ ...emptyForm });
+  const [startDateOpen, setStartDateOpen] = useState(false);
+  const [endDateOpen, setEndDateOpen] = useState(false);
 
   // Children in source group
   const sourceChildren = children.filter((c) => {
@@ -312,7 +314,7 @@ const Groups = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>Початок навч. року</Label>
-                  <Popover>
+                  <Popover open={startDateOpen} onOpenChange={setStartDateOpen}>
                     <PopoverTrigger asChild>
                       <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !formData.study_start_date && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4" />
@@ -320,13 +322,13 @@ const Groups = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={formData.study_start_date ? new Date(formData.study_start_date) : undefined} onSelect={(d) => setFormData({ ...formData, study_start_date: d ? format(d, "yyyy-MM-dd") : null })} initialFocus className="pointer-events-auto p-3" locale={uk} />
+                      <Calendar mode="single" selected={formData.study_start_date ? new Date(formData.study_start_date) : undefined} onSelect={(d) => { setFormData({ ...formData, study_start_date: d ? format(d, "yyyy-MM-dd") : null }); setStartDateOpen(false); }} initialFocus locale={uk} />
                     </PopoverContent>
                   </Popover>
                 </div>
                 <div className="space-y-2">
                   <Label>Кінець навч. року</Label>
-                  <Popover>
+                  <Popover open={endDateOpen} onOpenChange={setEndDateOpen}>
                     <PopoverTrigger asChild>
                       <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !formData.study_end_date && "text-muted-foreground")}>
                         <CalendarIcon className="mr-2 h-4 w-4" />
@@ -334,7 +336,7 @@ const Groups = () => {
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar mode="single" selected={formData.study_end_date ? new Date(formData.study_end_date) : undefined} onSelect={(d) => setFormData({ ...formData, study_end_date: d ? format(d, "yyyy-MM-dd") : null })} initialFocus className="pointer-events-auto p-3" locale={uk} />
+                      <Calendar mode="single" selected={formData.study_end_date ? new Date(formData.study_end_date) : undefined} onSelect={(d) => { setFormData({ ...formData, study_end_date: d ? format(d, "yyyy-MM-dd") : null }); setEndDateOpen(false); }} initialFocus locale={uk} />
                     </PopoverContent>
                   </Popover>
                 </div>
