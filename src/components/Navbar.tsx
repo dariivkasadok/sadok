@@ -1,5 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import { Cherry } from "lucide-react";
+import { Cherry, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { Button } from "@/components/ui/button";
 
 const navItems = [
   { label: "Головна", path: "/" },
@@ -12,6 +14,7 @@ const navItems = [
 
 const Navbar = () => {
   const location = useLocation();
+  const { signOut } = useAuth();
 
   return (
     <nav className="sticky top-0 z-50 border-b bg-card shadow-sm">
@@ -36,6 +39,9 @@ const Navbar = () => {
               {item.label}
             </Link>
           ))}
+          <Button variant="ghost" size="icon" onClick={signOut} title="Вийти">
+            <LogOut className="h-4 w-4" />
+          </Button>
         </div>
       </div>
     </nav>
