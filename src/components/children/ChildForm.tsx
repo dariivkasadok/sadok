@@ -96,10 +96,11 @@ const ChildForm = ({ onSubmit, onCancel, initialData, groups }: ChildFormProps) 
 
   const DateField = ({ label, value, onChange }: { label: string; value: string | null; onChange: (v: string | null) => void }) => {
     const dateValue = value ? new Date(value) : undefined;
+    const [open, setOpen] = useState(false);
     return (
       <div className="space-y-1.5">
         <Label className="text-sm font-semibold">{label}</Label>
-        <Popover>
+        <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" className={cn("w-full justify-start text-left font-normal", !value && "text-muted-foreground")}>
               <CalendarIcon className="mr-2 h-4 w-4" />
@@ -107,7 +108,7 @@ const ChildForm = ({ onSubmit, onCancel, initialData, groups }: ChildFormProps) 
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <Calendar mode="single" selected={dateValue} onSelect={(d) => onChange(d ? format(d, "yyyy-MM-dd") : null)} initialFocus className="pointer-events-auto p-3" locale={uk} />
+            <Calendar mode="single" selected={dateValue} onSelect={(d) => { onChange(d ? format(d, "yyyy-MM-dd") : null); setOpen(false); }} initialFocus locale={uk} />
           </PopoverContent>
         </Popover>
       </div>
