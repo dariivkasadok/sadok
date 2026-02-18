@@ -38,6 +38,20 @@ const warStatuses = [
   { key: "missing_parents", label: "Батьки зниклі безвісті" },
 ];
 
+const locationStatusMap: Record<string, string> = {
+  "village": "На території села",
+  "ukraine": "На території України",
+  "abroad": "За кордоном",
+  "На території села": "На території села",
+  "На території України": "На території України",
+  "За кордоном": "За кордоном",
+};
+
+const translateLocationStatus = (status: string | null): string => {
+  if (!status) return "";
+  return locationStatusMap[status.toLowerCase()] || locationStatusMap[status] || status;
+};
+
 const Reports = () => {
   const { data: allChildren = [] } = useChildren();
   const { data: allGroups = [] } = useAllGroups();
@@ -97,7 +111,10 @@ const Reports = () => {
       filtered = filtered.filter((c) => c.status === statusFilter);
     }
     if (territorialStatus !== "all") {
-      filtered = filtered.filter((c) => c.location_status === territorialStatus);
+      filtered = filtered.filter((c) => {
+        const translated = translateLocationStatus(c.location_status);
+        return c.location_status === territorialStatus || translated === territorialStatus;
+      });
     }
     if (birthDateFrom) {
       filtered = filtered.filter((c) => (c.birth_date ?? "") >= birthDateFrom);
@@ -168,7 +185,7 @@ const Reports = () => {
       case "status": return child.status;
       case "socialStatus": return getSocialStatusText(child);
       case "warStatus": return getWarStatusText(child);
-      case "territorialStatus": return child.location_status;
+      case "territorialStatus": return translateLocationStatus(child.location_status);
       case "parentFullName": return child.parents_full_name;
       case "parentPhone": return child.phone;
       default: return "";
