@@ -33,6 +33,11 @@ export function useAddChild() {
 
       // Assign to group if provided
       if (params.groupId && data) {
+        await supabase
+          .from("child_group_history")
+          .update({ is_current: false })
+          .eq("child_id", data.id)
+          .eq("is_current", true);
         const { error: ghError } = await supabase
           .from("child_group_history")
           .insert({ child_id: data.id, group_id: params.groupId, is_current: true });
@@ -65,8 +70,13 @@ export function useUpdateChild() {
         .eq("id", params.id);
       if (error) throw error;
 
-      // Update group assignment if provided (DB trigger auto-deactivates old assignments)
+      // Deactivate old group assignment, then insert new one
       if (params.groupId) {
+        await supabase
+          .from("child_group_history")
+          .update({ is_current: false })
+          .eq("child_id", params.id)
+          .eq("is_current", true);
         const { error: ghError } = await supabase
           .from("child_group_history")
           .insert({ child_id: params.id, group_id: params.groupId, is_current: true });
