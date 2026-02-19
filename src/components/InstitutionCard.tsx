@@ -8,7 +8,7 @@ const InstitutionCard = () => {
           🍒
         </div>
         <div className="flex-1">
-          <h1 className="mb-6 text-2xl font-extrabold text-foreground">
+          <h1 className="mb-6 text-center text-2xl font-extrabold text-foreground">
             Дар'ївський заклад дошкільної освіти Дар'ївської сільської ради Херсонського району Херсонської області
           </h1>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
