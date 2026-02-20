@@ -147,10 +147,10 @@ async function exportWord(headers: string[], rows: string[][], title: string, or
   const borderStyle = { style: BorderStyle.SINGLE, size: 1, color: "999999" };
   const borders = { top: borderStyle, bottom: borderStyle, left: borderStyle, right: borderStyle };
   const headerRow = new TableRow({
-    children: headers.map((h) => new TableCell({ borders, children: [new Paragraph({ children: [new TextRun({ text: h, bold: true, size: 20 })] })] })),
+    children: headers.map((h) => new TableCell({ borders, children: [new Paragraph({ children: [new TextRun({ text: String(h ?? ""), bold: true, size: 20 })] })] })),
   });
   const dataRows = rows.map((row) => new TableRow({
-    children: row.map((cell) => new TableCell({ borders, children: [new Paragraph({ children: [new TextRun({ text: cell, size: 20 })] })] })),
+    children: row.map((cell) => new TableCell({ borders, children: [new Paragraph({ children: [new TextRun({ text: String(cell ?? ""), size: 20 })] })] })),
   }));
   const pageOrientation = orientation === "landscape" ? "landscape" : undefined;
   const doc = new Document({
